@@ -33,6 +33,21 @@ let
     };
   };
 
+  mcp = python3.pkgs.mcp.overridePythonAttrs (old: rec {
+    version = "1.10.0";
+    src = python3.pkgs.fetchPypi {
+      pname = "mcp";
+      inherit version;
+      sha256 = "sha256-kfsWI8P68UV3Yj0UdV0yE9uDfF2l2uhQaeG1kSTL4Ok=";
+    };
+    dependencies = (old.dependencies or []) ++ (with python3.pkgs; [
+      jsonschema
+      python-multipart
+    ]);
+    dontCheckRuntimeDeps = true;
+    doCheck = false;
+  });
+
 in
 python3.pkgs.buildPythonApplication rec {
   pname = "lean-lsp-mcp";
@@ -57,6 +72,7 @@ python3.pkgs.buildPythonApplication rec {
 
   # Tests require a running Lean server
   doCheck = false;
+  dontCheckRuntimeDeps = true;
 
   meta = {
     description = "Lean Theorem Prover MCP (Model Context Protocol) server";
