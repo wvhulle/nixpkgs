@@ -203,6 +203,8 @@ with pkgs;
 
   aider-chat = with python312Packages; toPythonApplication aider-chat;
 
+  aider-desk = callPackage ../by-name/ai/aider-desk { };
+
   aider-chat-with-playwright =
     with python312Packages;
     toPythonApplication (aider-chat.withOptional { withPlaywright = true; });
