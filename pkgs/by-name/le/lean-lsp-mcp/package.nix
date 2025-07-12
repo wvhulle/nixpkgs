@@ -6,14 +6,14 @@
 
 python3.pkgs.buildPythonApplication rec {
   pname = "lean-lsp-mcp";
-  version = "0.3.0";
+  version = "0.5.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "oOo0oOo";
     repo = "lean-lsp-mcp";
     tag = "v${version}";
-    hash = "sha256-hCEbVoxiUBRysDiNvZyx9nZTxbaAQsgsQTiQvhyLosM=";
+    hash = "sha256-jvS7rlByY7x6Y6nic52g04e1sdhC+omHcsfXpMkTeCc=";
   };
 
   build-system = with python3.pkgs; [ setuptools ];
