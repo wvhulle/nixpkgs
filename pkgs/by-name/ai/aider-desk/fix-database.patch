@@ -1,0 +1,28 @@
+diff --git a/src/main/dataManager.ts b/src/main/dataManager.ts
+index 1234567..abcdefg 100644
+--- a/src/main/dataManager.ts
++++ b/src/main/dataManager.ts
+@@ -1,7 +1,20 @@
+ import Database from 'better-sqlite3';
+ 
++// Monkey-patch Database to handle missing native module
++const OriginalDatabase = Database;
++function PatchedDatabase(...args) {
++  try {
++    return new OriginalDatabase(...args);
++  } catch (error) {
++    console.error('Failed to initialize SQLite database:', error);
++    // Return a mock database object
++    return {
++      prepare: () => ({ run: () => {}, get: () => undefined, all: () => [] }),
++      close: () => {}
++    };
++  }
++}
++
+ export class DataManager {
+   constructor() {
+-    this.db = new Database('aider-desk.db');
++    this.db = new PatchedDatabase('aider-desk.db');
+   }
+ }

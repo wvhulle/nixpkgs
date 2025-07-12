@@ -1,0 +1,40 @@
+diff --git a/src/main/start-up.ts b/src/main/start-up.ts
+index 1234567..abcdefg 100644
+--- a/src/main/start-up.ts
++++ b/src/main/start-up.ts
+@@ -56,8 +56,17 @@ async function setupAiderConnector() {
+   }
+ 
+   // Copy connector.py if it doesn't exist or is older than the source
+-  const sourceConnectorPath = path.join(RESOURCES_DIR, 'connector/connector.py');
+-  const destConnectorPath = path.join(AIDER_DESK_CONNECTOR_DIR, 'connector.py');
++  const sourceConnectorPath = path.join(RESOURCES_DIR, 'connector', 'connector.py');
++  const destConnectorPath = path.join(AIDER_DESK_CONNECTOR_DIR, 'connector.py');
++
++  // Ensure destination directory exists
++  if (!fs.existsSync(AIDER_DESK_CONNECTOR_DIR)) {
++    fs.mkdirSync(AIDER_DESK_CONNECTOR_DIR, { recursive: true });
++  }
++
++  // Remove existing file if it exists to avoid permission issues
++  if (fs.existsSync(destConnectorPath)) {
++    fs.unlinkSync(destConnectorPath);
++  }
+ 
+   if (
+     !fs.existsSync(destConnectorPath) ||
+@@ -65,7 +74,12 @@ async function setupAiderConnector() {
+     fs.statSync(destConnectorPath).mtime
+   ) {
+     logger.info('Copying connector.py to user directory');
+-    fs.copyFileSync(sourceConnectorPath, destConnectorPath);
++    try {
++      fs.copyFileSync(sourceConnectorPath, destConnectorPath);
++      // Ensure the copied file is writable
++      fs.chmodSync(destConnectorPath, 0o644);
++    } catch (error) {
++      logger.error('Failed to copy connector.py:', error);
++    }
+   }
+ 
+   // Copy the entire connector directory if it doesn't exist

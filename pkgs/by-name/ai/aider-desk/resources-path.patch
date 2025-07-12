@@ -1,0 +1,13 @@
+diff --git a/src/main/constants.ts b/src/main/constants.ts
+index 1234567..abcdefg 100644
+--- a/src/main/constants.ts
++++ b/src/main/constants.ts
+@@ -10,7 +10,7 @@ export const APP_DATA_DIR = path.join(AIDER_DESK_DATA_DIR, '..');
+ export const USER_DATA_DIR = app.getPath('userData');
+ export const DOWNLOADS_DIR = path.join(USER_DATA_DIR, 'downloads');
+ export const TEMP_DIR = os.tmpdir();
+-export const RESOURCES_DIR = is.dev ? path.join(__dirname, '..', '..', 'resources') : process.resourcesPath;
++export const RESOURCES_DIR = process.env.AIDER_DESK_RESOURCES_DIR || (is.dev ? path.join(__dirname, '..', '..', 'resources') : process.resourcesPath);
+ export const NODE_MODULES_DIR = path.join(__dirname, '..', '..', 'node_modules');
+ export const DIST_DIR = path.join(__dirname, '..');
+ export const PYTHON_COMMAND = path.join(AIDER_DESK_DATA_DIR, 'python');
