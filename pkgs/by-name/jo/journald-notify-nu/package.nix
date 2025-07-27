@@ -15,8 +15,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "wvhulle";
     repo = "journald-notify-nu";
-    rev = "247174e5a9c6b8d2e1f5a4c3b6e9d8f7a5c4b3e2"; # Will be updated when pushed
-    hash = "sha256-0000000000000000000000000000000000000000000="; # Will be updated
+    rev = "main";
+    sha256 = "1qrlq472g8zj6ksz7p3i1y236ccl4dp57brdf02kpjk9llxba45s";
   };
 
   nativeBuildInputs = [ makeWrapper ];
