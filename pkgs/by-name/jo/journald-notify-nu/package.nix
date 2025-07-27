@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
     owner = "wvhulle";
     repo = "journald-notify-nu";
     rev = "main";
-    sha256 = "1qrlq472g8zj6ksz7p3i1y236ccl4dp57brdf02kpjk9llxba45s";
+    sha256 = "1qzha6si6yj5xd0acy677j63cwyk5ls62yycc2r3jicxwr3dp9qp";
   };
 
   nativeBuildInputs = [ makeWrapper ];
@@ -31,10 +31,6 @@ stdenv.mkDerivation rec {
     # Install the nushell module
     mkdir -p $out/share/journald-notify-nu
     cp mod.nu $out/share/journald-notify-nu/
-
-    # Install NixOS module
-    mkdir -p $out/share/nixos/modules
-    cp nixos-module.nix $out/share/nixos/modules/journald-notify-nu.nix
 
     # Create wrapper scripts for command-line usage
     mkdir -p $out/bin
@@ -63,9 +59,6 @@ EOF
     runHook postInstall
   '';
 
-  passthru = {
-    nixosModules.journald-notify-nu = import "${placeholder "out"}/share/nixos/modules/journald-notify-nu.nix";
-  };
 
   meta = {
     description = "A nushell package for converting systemd journal entries to desktop notifications";
